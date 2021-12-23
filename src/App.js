@@ -29,21 +29,32 @@ function App() {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({key: event.target.value}),
+      body: JSON.stringify({key: event.target.value, codeOfMethod: 1}),
     })
       .then((request) => request.json()
         .then((json) => setCurrencies(json)));
   };
 
-  const changeValueHandler = (key) => {
-      console.log(key, 'changes')
+  const changeValueHandler = (event,currencyName) => {
+      console.log(event.target.value, currencyName, 'changes');
+      fetch('http://localhost:3002/filtered', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({valueAfterChange: event.target.value, currencyToChange: currencyName, codeOfMethod: 2}),
+      })
+        .then((request) => request.json()
+          .then((json) => setCurrencies(json)));
+      
   }
-
+  
   return (
     <div className="App">
         {Object.entries(currencies).map(([key, value]) => (
           <div>
-            <input readOnly="false" type="text" onChange={changeValueHandler(key)} value={value}>
+            <input type="text" inputMode="decimal" onChange={(event) => changeValueHandler(event,key)} value={value}>
               </input>
             {key}
           </div>
