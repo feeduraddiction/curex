@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+// import { ReactReduxContext } from 'react-redux';
 
 const URL_EVERYTHING = 'http://localhost:3002';
 const URL_FILTERED = 'http://localhost:3002/filtered';
@@ -7,7 +8,7 @@ const URL_FILTERED = 'http://localhost:3002/filtered';
 function App() {
   const [currenciesAll, setCurrenciesAll] = useState([]);
   const [currencies, setCurrencies] = useState([]);
-  const fetchData = async (url, setStateFunc) =>{
+  const fetchData = async (url, setStateFunc) => {
     try {
       const response = await fetch(url);
       const json = await response.json()
@@ -20,7 +21,7 @@ function App() {
     fetchData(URL_EVERYTHING, setCurrenciesAll);
     fetchData(URL_FILTERED, setCurrencies);
   },[])
-
+  
   const addCurrencyHandler = (event) => {
     console.log(event.target.value, 'event')
     fetch('http://localhost:3002/filtered', {
@@ -29,12 +30,12 @@ function App() {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({key: event.target.value, codeOfMethod: 1}),
+      body: JSON.stringify({currencyToChange: event.target.value, codeOfMethod: 1}),
     })
       .then((request) => request.json()
         .then((json) => setCurrencies(json)));
   };
-
+  
   const changeValueHandler = (event,currencyName) => {
       console.log(event.target.value, currencyName, 'changes');
       fetch('http://localhost:3002/filtered', {
@@ -54,7 +55,7 @@ function App() {
     <div className="App">
         {Object.entries(currencies).map(([key, value]) => (
           <div>
-            <input type="text" inputMode="decimal" onChange={(event) => changeValueHandler(event,key)} value={value}>
+            <input type="number" inputMode="decimal" onChange={(event) => changeValueHandler(event,key)} value={Math.floor(value*10000)/10000}>
               </input>
             {key}
           </div>
