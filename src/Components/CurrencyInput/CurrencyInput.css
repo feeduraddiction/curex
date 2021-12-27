@@ -1,0 +1,33 @@
+.currency-input {
+  margin: 35px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.currency-input input {
+  width: 66%;
+  margin-left: 25px;
+  height: 33px;
+}
+
+.currency-input label {
+  font-size: 22px;
+  font-weight: 600;
+  color: #5757b1;
+}
+
+.currency-input input[type="number"] {
+  font-size: 18px;
+}
+
+.currency-input input:focus + .currency-input__title {
+  color: black;
+}
+
+.currency-input input::-webkit-outer-spin-button,
+.currency-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
